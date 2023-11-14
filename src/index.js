@@ -40,6 +40,9 @@ const listName = (state = '', action) => {
 // Reducer
 const bookList = (state = [], action) => {
   // TODO - set book list with data from server
+  if (action.type === 'ADD_BOOK') {
+    return [...state, action.payload];
+  }
   return state;
 }
 
