@@ -33,7 +33,11 @@ const bookList = (state = [], action) => {
     // TODO - set book list with data from server
     if (action.type === 'ADD_BOOK') {
         return [...state, action.payload];
+    } else if (action.type === 'SET_BOOK_LIST') {
+        // Replace the list if receiving a full list
+        return action.payload;
     }
+    // ! One generally has an ADD action type OR a SET action type, not both
     return state;
 }
 

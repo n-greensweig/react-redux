@@ -5,6 +5,8 @@ import BookList from '../BookList/BookList';
 import { useSelector, useDispatch } from 'react-redux';
 import './App.css';
 import ListName from '../ListName/ListName';
+import Axios from 'axios';
+import { useEffect } from 'react';
 
 function App() {
 
@@ -30,6 +32,23 @@ function App() {
   };
 
   // TODO - GET Book List from server
+  const getBookList = () => {
+
+    Axios.get('/books')
+      .then(response => {
+        const action = { type: 'SET_BOOK_LIST', payload: response.data };
+        dispatch(action);
+      })
+      .catch(error => {
+        console.error('Error getting book list', error);
+        alert('Something went wrong.');
+      });
+
+  };
+
+  useEffect(() => {
+    getBookList();
+  }, []);
 
   return (
     <div className="App">
@@ -42,7 +61,7 @@ function App() {
       <h4>Name Your Book List</h4>
       <ListName />
       <main>
-        <BookForm />
+        <BookForm getBookList={getBookList} />
         <BookList />
       </main>
     </div>

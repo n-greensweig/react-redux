@@ -1,7 +1,8 @@
+import Axios from 'axios';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-function BookForm() {
+function BookForm(props) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
 
@@ -13,8 +14,20 @@ function BookForm() {
     console.log(`Adding book`, { title, author });
 
     // TODO - axios request to server to add book
-    let action = { type: 'ADD_BOOK', payload: { title, author } };
-    dispatch(action);
+    // let action = { type: 'ADD_BOOK', payload: { title, author } };
+    // dispatch(action);
+    Axios.post('/books', { title, author })
+      .then(response => {
+        
+        // TODO: Call getBookList via props
+        props.getBookList();
+
+      })
+      .catch(error => {
+        console.error('Error posting a book', error);
+        alert('Something went wrong.')
+      });
+
   };
 
   return (
